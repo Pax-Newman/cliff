@@ -3,7 +3,7 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 */
 package main
 
-import "fim/cmd"
+import "github.com/Pax-Newman/cliff/cmd"
 
 func main() {
 	cmd.Execute()
