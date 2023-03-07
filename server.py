@@ -2,8 +2,6 @@ import socket
 import torch
 from PIL import Image
 
-import clip
-
 class Server():
     """ Handles operating the CLIP model over a simple sockets based API """
 
@@ -26,7 +24,7 @@ class Server():
 
         # init the model and tokenizer
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
-        self.model, self.preprocess = torch.hub.load("openai/CLIP", model, device=self.device)
+        self.model, self.preprocess = torch.hub.load("openai/CLIP", model, device=self.device, trust_repo=True)
         self.tokenize = torch.hub.load("openai/CLIP", "tokenize")
 
         match similarity:
