@@ -97,11 +97,26 @@ class Server():
                 ]
 
         return sorted_paths
-    
-    def close(self):
-        """ Shutdown the server """
-        ...
 
+    def accept_client(self):
+        """ Listens for and accepts a single client until it closes the connection """
+        self.sock.listen()
+        client, addr = self.sock.accept()
+
+        print("Accepted client:", client)
+
+        bufsize = 4096
+        
+        while True:
+            
+            msg = client.recv(bufsize)
+            
+            print(f"Received message: {msg.decode()}")
+
+            if msg.decode() == 'quit':
+                break
+
+        client.close()
 
 if __name__ == '__main__':
     # port 0 will allow the OS to self select a safe port for us
