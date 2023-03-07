@@ -12,7 +12,7 @@ class Server():
             address: str,       # ip address of server
             port: int,          # port of the server
             model: str,         # which model to use
-            similarity: str,    # similarity function
+            similarity: str,    # similarity function for comparing two embeddings
             ) -> None:
         # bind our socket
         self.sock = socket.socket()
@@ -31,8 +31,10 @@ class Server():
 
         match similarity:
             case 'cosine':
+                # selects the cosine similarity function
                 self.sim_func = torch.nn.functional.cosine_similarity
             case 'euclidean':
+                # selects euclidean distance
                 self.sim_func = lambda x, y : torch.cdist(x[:, None], y[:, None].T)
 
     @torch.no_grad()
@@ -107,7 +109,12 @@ if __name__ == '__main__':
     # port 0 will allow the OS to self select a safe port for us
     address, port = '', 0
 
-    server = Server(address, port)
+    server = Server(
+            address='',
+            port=0, # allows the OS to self select a safe port for us to use
+            model= 'RN50', # available models: ['RN50', 'RN101', 'RN50x4', 'RN50x16', 'RN50x64', 'ViT-B/32', 'ViT-B/16', 'ViT-L/14', 'ViT-L/14@336px']
+            similarity='cosine'
+            )
 
     # Display the server information 
     print(server.sock.getsockname())
