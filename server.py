@@ -48,6 +48,7 @@ class Server():
             with open(filepath) as f:
                 return self.tokenize(f.read())
 
+    @torch.no_grad()
     def add_to_index(self, *filepaths: str):
         """ Add a set of files to the search index """
         images = [
